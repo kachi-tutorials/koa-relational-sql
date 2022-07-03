@@ -11,12 +11,12 @@ datasource db {
 }
 
 model Event {
-  name            String
-  description     String
+  name           String
+  description    String
   totalAttendees Int        @default(0)
-  adultsOnly      Boolean    @default(false)
-  eventId         String     @unique
-  attendee        Attendee[]
+  adultsOnly     Boolean    @default(false)
+  eventId        String     @unique
+  attendee       Attendee[]
 }
 
 model Attendee {

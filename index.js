@@ -6,8 +6,8 @@ const router = require("./router");
 const port = 8000;
 
 App.use(parser())
-    .use(cors())
-    .use(router.routes());
+  .use(cors())
+  .use(router.routes());
 
 App.listen(port, () => {
   console.log(`🚀 Server listening http://127.0.0.1:${port}/ 🚀`);
