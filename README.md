@@ -1,10 +1,12 @@
-# Prerequisite
-
-Before you start this part, make sure you have read [**part 1**](https://github.com/tutorial-point/koa-server-tutorial) of this tutorial series
-
 # KOA relational SQL Server
 
-Let's make sure we have [**postgres**](https://www.postgresql.org/download/) installed before we continue:
+Before you start this part, make sure you have read [**part 1**](https://github.com/tutorial-point/koa-server-tutorial) of this tutorial series as we're gonna be starting from there.
+
+In this tutorial, we'll be connecting a relational **`SQL`** database to our **`Koa JS`** server.
+
+# Prerequisite
+
+Before we start let's make sure we have [**`postgres`**](https://www.postgresql.org/download/) installed:
 
 ```bash
 psql --version
@@ -30,6 +32,12 @@ This should create the following:
 2. A **`.env`** file containing the following code:
 
 ```env
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema
+
+# Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+
 DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 ```
 
@@ -42,12 +50,12 @@ DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/koa_prisma_tutorial?sche
 The credentials are as follows:
 
 1. **`USER`:`PASSWORD`** should be your credentials.
-2. **`@localhost:5432`** is the default port for postgres, if you are using another port, you can edit this accordingly.
+2. **`@localhost:5432`** is the default port for postgres. If you are using another port change this accordingly.
 3. **`koa_prisma_tutorial`** is the database we'll be creating to store our data, but feel free to name it whatever you want.
 
 ## Prisma Models
 
-Now navigate to your **`schema.prisma`** file in the **`prisma`** folder and add the following code:
+Now navigate to your **`schema.prisma`** file in the **`prisma`** folder and update it with the following code:
 
 ```javascript
 // This is your Prisma schema file,
@@ -127,6 +135,8 @@ Try it out by running the following command via your terminal:
 npx prisma studio
 ```
 
+To exit press **`control`** + **`C`**
+
 Let's now create a prisma client for our Koa server to access by running the following commands:
 
 ```bash
@@ -156,14 +166,14 @@ Let's run the following commands:
 
 ```bash
 mkdir helpers
-touch helpers/attendee.helpers.js helpers/event.helpers.js
+touch helpers/attendee.helpers.js helpers/events.helpers.js
 ```
 
 This should create the following:
 
 1. A directory titled **`helpers`**.
 2. A file named **`attendee.helpers.js`**.
-3. A file name and **`event.helpers.js`**.
+3. A file name and **`events.helpers.js`**.
 
 ### Attendee Helpers
 
@@ -260,7 +270,7 @@ This function will update our total_attendees in a given event. Here's what happ
 
 ### Event Helpers
 
-Now let's edit the **`event.helpers.js`** file by adding the following code.
+Now let's edit the **`events.helpers.js`** file by adding the following code.
 
 ```javascript
 const { event } = require("../prisma");
@@ -352,10 +362,10 @@ module.exports = {
 
 This controller will be used to add new attendees by passing data through the request body.
 
-Now let's edit the code in our **`event.controllers.js`** file
+Now let's edit the code in our **`events.controllers.js`** file
 
 ```javascript
-const { createEvent, findEvent } = require("../helpers/event.helpers");
+const { createEvent, findEvent } = require("../helpers/events.helpers");
 
 const getEvent = async (ctx) => {
   try {
@@ -392,7 +402,7 @@ These update will enable us to:
 1. **`addEvent`** - add new events by passing data through the request body.
 2. **`getEvent`** - get existing events by passing the eventId through our request params (url).
 
-Finally, we need to update our router:
+Finally, we need to update our **`router.js`** file:
 
 ```javascript
 const Router = require("koa-router");
@@ -453,7 +463,7 @@ A successful request should return the following response:
 }
 ```
 
-Now let's add an attendee through a post request to [**http://127.0.0.1:8000/add_attendee**](http://127.0.0.1:8000/add_attendee):
+Now let's add an attendee through a post request to [**`http://127.0.0.1:8000/add_attendee`**](http://127.0.0.1:8000/add_attendee):
 
 ```json
 {
@@ -465,7 +475,7 @@ Now let's add an attendee through a post request to [**http://127.0.0.1:8000/add
 
 A successful request should return the data you just passed through the body.
 
-Now let's get the event we've just created [**http://127.0.0.1:8000/event=id:12345**](http://127.0.0.1:8000/event=id:12345):
+Now let's get the event we've just created [**`http://127.0.0.1:8000/event=id:12345`**](http://127.0.0.1:8000/event=id:12345):
 
 ```json
 {
