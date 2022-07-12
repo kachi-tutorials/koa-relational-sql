@@ -1,4 +1,4 @@
-const { createEvent, findEvent } = require("../helpers/event.helpers");
+const { createEvent, findEvent } = require("../helpers/events.helpers");
 
 const getEvent = async (ctx) => {
   try {
